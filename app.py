@@ -1,4 +1,4 @@
-# !pip install --upgrade google-api-python-client google-auth gspread streamlit qrcode[pil] -q
+# app.py
 
 import streamlit as st
 from google.oauth2 import service_account
@@ -7,44 +7,57 @@ import gspread
 from datetime import datetime
 import qrcode
 from io import BytesIO
-import base64  # Added for base64 encoding
+import base64
+from dotenv import load_dotenv
+import os
 
-# === 🔐 Load Google API credentials ===
-SERVICE_ACCOUNT_FILE = 'lyrical-mason-444709-h7-cd695cefbdf4.json'
-SCOPES = [
-    'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/spreadsheets',
-    'https://www.googleapis.com/auth/forms.body',
-    'https://www.googleapis.com/auth/forms.responses.readonly'
-]
+# === 🔐 Load environment variables from .env ===
+load_dotenv()
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+# Fix: load private_key separately and convert \n to real newlines
+private_key_raw = os.getenv("PRIVATE_KEY")
+private_key = private_key_raw.replace('\\n', '\n') if private_key_raw else None
+
+
+service_account_info = {
+    "type": os.getenv("TYPE"),
+    "project_id": os.getenv("PROJECT_ID"),
+    "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+    "private_key": private_key,
+    "client_email": os.getenv("CLIENT_EMAIL"),
+    "client_id": os.getenv("CLIENT_ID"),
+    "auth_uri": os.getenv("AUTH_URI"),
+    "token_uri": os.getenv("TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_CERT_URL"),
+    "client_x509_cert_url": os.getenv("CLIENT_CERT_URL"),
+    "universe_domain": os.getenv("UNIVERSE_DOMAIN")
+}
+
+
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info,
+    scopes=[
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/forms.body',
+        'https://www.googleapis.com/auth/forms.responses.readonly'
+    ]
+)
 
 form_service = build('forms', 'v1', credentials=credentials)
 drive_service = build('drive', 'v3', credentials=credentials)
 gc = gspread.authorize(credentials)
 
 sheet = gc.open("Pre-Post Test").sheet1
-DESTINATION_FOLDER_ID = '1moTA94vOTorwpnUpGQZnKz5-5S9jYeBw'
+DESTINATION_FOLDER_ID = '1moTA94vOTorwpnUpGQZnKz5-5S9jYeBw'  # <- Your folder ID
 
-# === 🎨 Styling ===
+# === Styling ===
 st.markdown("""
     <style>
-    .main {
-        background-color: #f4f6f9;
-    }
-
-    html, body, [class*="css"] {
-        font-family: 'Segoe UI', sans-serif;
-        color: #1f2e4d;
-    }
-
-    h1, h2, h3 {
-        color: #0a1930;
-        margin-bottom: 10px;
-    }
-
+    .main { background-color: #f4f6f9; }
+    html, body, [class*="css"] { font-family: 'Segoe UI', sans-serif; color: #1f2e4d; }
+    h1, h2, h3 { color: #0a1930; margin-bottom: 10px; }
     .title-container {
         background-color: #001f3f;
         padding: 20px;
@@ -53,7 +66,6 @@ st.markdown("""
         text-align: center;
         color: white;
     }
-
     .stTextInput > div > div > input,
     .stNumberInput > div,
     .stSelectbox > div {
@@ -62,7 +74,6 @@ st.markdown("""
         padding: 10px;
         border-radius: 6px;
     }
-
     .stButton > button {
         background-color: #1f2e4d;
         color: white;
@@ -73,11 +84,9 @@ st.markdown("""
         display: block;
         margin: 0 auto;
     }
-
     .stButton > button:hover {
         background-color: #0a1930;
     }
-
     .centered-title {
         text-align: center;
         font-size: 26px;
@@ -86,26 +95,17 @@ st.markdown("""
         margin-top: 40px;
         margin-bottom: 20px;
     }
-
-    a {
-        color: #1f77b4 !important;
-        font-weight: 500;
-    }
-
-    .stAlert {
-        border-radius: 5px;
-    }
     </style>
 """, unsafe_allow_html=True)
 
-# === 🖼️ Logo ===
+# === Logo ===
 st.markdown("""
     <div style="background-color: #001f3f; padding: 20px; border-radius: 10px; margin-bottom: 30px; text-align: center;">
         <img src="https://res.cloudinary.com/dcjmaapvi/image/upload/v1740489025/ga-hori_ylcnm3.png" width="300">
     </div>
 """, unsafe_allow_html=True)
 
-# === 📘 Title Box ===
+# === Title ===
 st.markdown("""
     <div class='title-container'>
         <h1 style="font-size: 28px; margin-bottom: 10px;">Trainer Assessment Form Creator</h1>
@@ -113,17 +113,17 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# === 👤 Trainer Details ===
+# === Trainer Details ===
 st.markdown("<div class='centered-title'>Trainer Information</div>", unsafe_allow_html=True)
 trainer_name = st.text_input("Trainer Name")
 college_name = st.text_input("College Name")
 
-# === 🧾 Test Configuration ===
+# === Test Configuration ===
 st.markdown("<div class='centered-title'>Test Details</div>", unsafe_allow_html=True)
 test_title = st.text_input("Test Title")
 num_questions = st.number_input("Number of Questions", min_value=1, max_value=50, step=1)
 
-# === ❓ Questions ===
+# === Questions ===
 st.markdown("<div class='centered-title'>Questionnaire</div>", unsafe_allow_html=True)
 questions = []
 for i in range(num_questions):
@@ -140,7 +140,7 @@ for i in range(num_questions):
         "answer": ans
     })
 
-# === 🚀 Generate Google Form ===
+# === Generate Google Form ===
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("Generate Google Form"):
     form_title = f"{test_title} - {college_name}"
@@ -158,19 +158,13 @@ if st.button("Generate Google Form"):
             "title": "Student Full Name",
             "description": "Enter your full name as per Aadhar.",
             "questionItem": {
-                "question": {
-                    "required": True,
-                    "textQuestion": {}
-                }
+                "question": {"required": True, "textQuestion": {}}
             }
         },
         {
             "title": "Batch & Specialization",
             "questionItem": {
-                "question": {
-                    "required": True,
-                    "textQuestion": {}
-                }
+                "question": {"required": True, "textQuestion": {}}
             }
         }
     ]
@@ -222,16 +216,14 @@ if st.button("Generate Google Form"):
     st.success("✅ Google Form created successfully!")
     st.markdown(f"🔗 [Click here to open your form]({form_link})")
 
-    # === 📱 QR Code Section ===
+    # === QR Code Section ===
     st.markdown("<div class='centered-title'>📱 Scan to Open Form</div>", unsafe_allow_html=True)
     qr = qrcode.make(form_link)
     buf = BytesIO()
     qr.save(buf, format="PNG")
 
-    # Convert QR code image to base64 string
     img_b64 = base64.b64encode(buf.getvalue()).decode()
 
-    # Display centered QR code with caption using HTML
     qr_html = f"""
     <div style="text-align: center;">
         <img src="data:image/png;base64,{img_b64}" width="250" alt="QR Code" />
