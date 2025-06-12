@@ -8,7 +8,6 @@ from datetime import datetime
 import qrcode
 from io import BytesIO
 import base64
-import json
 
 # === 🔐 Load Google API credentials securely from Streamlit secrets ===
 SCOPES = [
@@ -18,7 +17,9 @@ SCOPES = [
     'https://www.googleapis.com/auth/forms.responses.readonly'
 ]
 
+# ✅ FIXED: Removed json.loads — secrets is already a dict
 service_account_info = st.secrets["gcp_service_account"]
+
 credentials = service_account.Credentials.from_service_account_info(
     service_account_info, scopes=SCOPES)
 
