@@ -7,10 +7,10 @@ import gspread
 from datetime import datetime
 import qrcode
 from io import BytesIO
-import base64  # Added for base64 encoding
+import base64
+import json
 
-# === 🔐 Load Google API credentials ===
-SERVICE_ACCOUNT_FILE = 'lyrical-mason-444709-h7-f139438881fb.json'
+# === 🔐 Load Google API credentials securely from Streamlit secrets ===
 SCOPES = [
     'https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/spreadsheets',
@@ -18,8 +18,9 @@ SCOPES = [
     'https://www.googleapis.com/auth/forms.responses.readonly'
 ]
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+service_account_info = json.loads(st.secrets["gcp_service_account"])
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info, scopes=SCOPES)
 
 form_service = build('forms', 'v1', credentials=credentials)
 drive_service = build('drive', 'v3', credentials=credentials)
@@ -34,17 +35,14 @@ st.markdown("""
     .main {
         background-color: #f4f6f9;
     }
-
     html, body, [class*="css"] {
         font-family: 'Segoe UI', sans-serif;
         color: #1f2e4d;
     }
-
     h1, h2, h3 {
         color: #0a1930;
         margin-bottom: 10px;
     }
-
     .title-container {
         background-color: #001f3f;
         padding: 20px;
@@ -53,7 +51,6 @@ st.markdown("""
         text-align: center;
         color: white;
     }
-
     .stTextInput > div > div > input,
     .stNumberInput > div,
     .stSelectbox > div {
@@ -62,7 +59,6 @@ st.markdown("""
         padding: 10px;
         border-radius: 6px;
     }
-
     .stButton > button {
         background-color: #1f2e4d;
         color: white;
@@ -73,11 +69,9 @@ st.markdown("""
         display: block;
         margin: 0 auto;
     }
-
     .stButton > button:hover {
         background-color: #0a1930;
     }
-
     .centered-title {
         text-align: center;
         font-size: 26px;
@@ -86,12 +80,10 @@ st.markdown("""
         margin-top: 40px;
         margin-bottom: 20px;
     }
-
     a {
         color: #1f77b4 !important;
         font-weight: 500;
     }
-
     .stAlert {
         border-radius: 5px;
     }
@@ -227,11 +219,7 @@ if st.button("Generate Google Form"):
     qr = qrcode.make(form_link)
     buf = BytesIO()
     qr.save(buf, format="PNG")
-
-    # Convert QR code image to base64 string
     img_b64 = base64.b64encode(buf.getvalue()).decode()
-
-    # Display centered QR code with caption using HTML
     qr_html = f"""
     <div style="text-align: center;">
         <img src="data:image/png;base64,{img_b64}" width="250" alt="QR Code" />
