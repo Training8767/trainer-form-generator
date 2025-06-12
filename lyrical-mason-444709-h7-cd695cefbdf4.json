@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "lyrical-mason-444709-h7",
+  "private_key_id": "cd695cefbdf42424ec93bf9d560438d6df16ae51",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDsM7eeWLEhZLqL\nuljZH805gMnC6HPUD+03n6VWX3ori4xaHLZvL41mhTjpnJi9+UB73ceM+5a6h7A6\nJgnr7icm4MzdQDz8NQnCuUAgBkC4sCgyyl4JxI0QTw+/wVeiMyltadn/Hgi4508p\nzLWiCF6zPhPwytJ8LfH0HMK1Y1t5ApJt/kW286B99O2mjcLMjseJXltQYOHqm0K3\nUEuDbILokN8ZgTcgihEqQzBi7rjiq2hYMO2d5F46ExOMAnYbXrjLSjsSPnd+9Uxo\nL6cXv1kp1x5fY9/gzBZExAOIiCuQugvJZ6JWORzOfjRb78Ug8YhSPg6jHszraqIp\nLdRWvVrNAgMBAAECggEAInSI3HhjnlNrQuaz/zg8X58Bz4TJIK4SFIMdQzQ6Rg/d\nMWfu1NlC7ymP28QUI+IwHeGEMnSg0CTq+BCEcf4TiABS4hN00fWKrvUG/aTr3AUW\nWBJdFV+ulCp0SaySc/6ylFtUiXqAGzjiu145QKGn7s2nawCrI6IwIUPwwzTzKvuF\nUuOQHuo2Xy76mvByYkwATd4Pvw0k2jzKU/dhv2zqeLUvUt/aBkG+xwvqvIzjTuQf\nnijh8zXqCnArJ2Ye3uacLkhyNiionkcSXDoq8oRv+hzUXCcvuOTkCKKyQtpxXKDN\nnf4e2s2DO1iqFj3H3dutMd27f89WEf24EMECERYCAQKBgQD2VqxP5qTg7BmX3lCz\nhrVPKzzJjgeHCjyk0IBjhgx0dizNNCzMTy3+tEEYDz4pNC4ruuw11sUZJ5rpa4jM\nLYnwnKvA0cJWx9/Kv5b7PYZp5gb7Lhq4bp7IhtQhN+vxZDoXsKWS74s1j0fSuTe1\nn+SseUr8n/8GJUlKJpr2LI440QKBgQD1d0UGq9OkHIgq4riGhfJAMMJNf5gExjCm\nc0xuxRHQK7SeNlRJPChPENJGX3tv3/2ZGUq2mNpc13+DQaVphtsgT+oWCBEMLY8r\nc4+yJ1w3EcUJ4zZpo8D81K3TK6MvDxfHkejrYuunK50QeSmmpnHkRKBzH1N2MH/D\nKfZoSNEBPQKBgQCk3BSt1Jn7vYbTUIGJ5FlrBnDEIz1+bqdvVerWsFudhYkuPADP\nKx6JG3GE/I6JXNaZhZuX3IhD8XGHTeRbYQ6z7OY1QSxij5mCQv50XhSawsthRtWz\nILU7VqCZKqfJAV6vhBULZS0xRxa2PCbAcqXDl9lLgHhYUJPgAD4tClyUQQKBgQCj\nwUq6VZ0eia5JtfDWRbvEGQM3Al0fKjzAfoDKEQx+LPoU5je6l7hobtdo/T/y9aJQ\nJbBTOovKjjVSElRQnxfGaanHwt/kmOw/V5vQhTOexWsG2p6tQQJ5aUUBcMYvmckK\naYvSpK6DWrQwjjQ8KiQm3aWQx6A9Y8OIJpFtJs7QHQKBgCHUcf5M0y8VST9pq7Cg\nt1oSHOnPObb7z54vEZWd5WYLZfKSQfl6qcAjXEbOk2iR+gZTQO4+XfD5R2p1jT0a\nNM7Q+jyQTAfLJAtSo4fE9yV0aoPxQj8PQ8PfHjc5xim+Yo0muvsKmKIMjoMNjAsb\nNe/+iheTldpwG5RpTfGXLbjy\n-----END PRIVATE KEY-----\n",
+  "client_email": "whatsapp-chat-bot@lyrical-mason-444709-h7.iam.gserviceaccount.com",
+  "client_id": "102157688536907012033",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/whatsapp-chat-bot%40lyrical-mason-444709-h7.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
